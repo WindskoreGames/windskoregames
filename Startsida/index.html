@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Windskore Games</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <style>
+    /* --------------------------------------------------
+       ROOT
+    -------------------------------------------------- */
+    :root {
+      --bg: #020712;
+      --panel: rgba(15, 25, 45, 0.75);
+      --panel-strong: rgba(15, 25, 45, 0.92);
+      --accent: #3aa6ff;
+      --accent-strong: #4fd1ff;
+      --text: #f5f7ff;
+      --text-muted: #9aa4c2;
+      --radius: 22px;
+      --shadow: 0 30px 80px rgba(0,0,0,0.65);
+      --blur: 28px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #0a1530 0, #020712 50%, #000 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--accent-strong);
+      text-decoration: none;
+    }
+
+    /* --------------------------------------------------
+       BACKGROUND ORBITS
+    -------------------------------------------------- */
+    .bg-orbit {
+      position: fixed;
+      inset: -20%;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(58,166,255,0.18) 0, transparent 55%),
+        radial-gradient(circle at 90% 10%, rgba(79,209,255,0.16) 0, transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(0,180,255,0.12) 0, transparent 60%);
+      animation: float 26s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-20px) scale(1.03); }
+      100% { transform: translateY(10px) scale(1.01); }
+    }
+
+    /* --------------------------------------------------
+       NAVIGATION
+    -------------------------------------------------- */
+    header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(20px);
+      background: rgba(2, 7, 18, 0.65);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      z-index: 50;
+    }
+
+    nav {
+      max-width: 1300px;
+      margin: auto;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, #fff, #4fd1ff);
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+    }
+
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: 999px;
+      color: var(--text-muted);
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      background: rgba(58,166,255,0.12);
+      color: var(--text);
+    }
+
+    /* --------------------------------------------------
+       HERO
+    -------------------------------------------------- */
+    .hero {
+      max-width: 1300px;
+      margin: 60px auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 35px;
+    }
+
+    .hero-panel {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 35px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(var(--blur));
+    }
+
+    .hero-title {
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+      background: linear-gradient(120deg, #fff, #4fd1ff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      color: var(--text-muted);
+      margin-bottom: 25px;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid transparent;
+      font-weight: 600;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #3aa6ff, #4fd1ff);
+      color: #020712;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(79,209,255,0.55);
+    }
+
+    .btn-ghost {
+      background: rgba(2,7,18,0.7);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(10,20,40,0.95);
+    }
+
+    /* --------------------------------------------------
+       SECTIONS
+    -------------------------------------------------- */
+    section {
+      max-width: 1300px;
+      margin: 70px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(var(--blur));
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* --------------------------------------------------
+       CONTACT
+    -------------------------------------------------- */
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    .contact-item {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 25px;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-item strong {
+      color: var(--text);
+      font-size: 1.1rem;
+    }
+
+    /* --------------------------------------------------
+       FOOTER
+    -------------------------------------------------- */
+    footer {
+      max-width: 1300px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* --------------------------------------------------
+       MOBILE
+    -------------------------------------------------- */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        margin-top: 30px;
+      }
+
+      .hero-title {
+        font-size: 2.3rem;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .contact-box {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-orbit"></div>
+
+  <!-- NAV -->
+  <header>
+    <nav>
+      <div class="logo">Windskore</div>
+      <div class="nav-links">
+        <a href="#games">Spel</a>
+        <a href="#studio">Studion</a>
+        <a href="#updates">Uppdateringar</a>
+        <a href="#contact">Kontakt</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-panel">
+      <h1 class="hero-title">Windskore Games</h1>
+      <p class="hero-sub">
+        Windskore Games är en spelstudio som utvecklar spel som Island Of Vehicles.
+      </p>
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a class="btn btn-primary" href="/games">Utforska spelen</a>
+        <a class="btn btn-ghost" href="#contact">Kontakt</a>
+      </div>
+    </div>
+
+    <div class="hero-panel">
+      <h3>Island Of Vehicles</h3>
+      <p>Ön är inspirerad av staden Hedemora/Dalarna. Hus och byggnader är inte samma men alla vägar är.</p>
+      <br>
+      <a class="btn btn-primary" href="/Island-Of-Vehicles">Köp Nu</a>
+    </div>
+  </section>
+
+  <!-- GAMES -->
+  <section id="games">
+    <h2 class="section-title">Spel</h2>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Island Of Vehicles</h3>
+        <p>En ö med hemligheter och missions.</p>
+        <br>
+        <a class="btn btn-primary" href="/Island-Of-Vehicles">Köp Nu</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDIO -->
+  <section id="studio">
+    <h2 class="section-title">Studion</h2>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Om Windskore</h3>
+        <p>Windskore är en indie‑studio med fokus på spel, datasystem och program.</p>
+      </div>
+
+      <div class="card">
+        <h3>Team</h3>
+        <p>Grundare: Adrian – vd, utvecklare, designer och arkitekt bakom spel och teknik.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPDATES -->
+  <section id="updates">
+    <h2 class="section-title">Uppdateringar</h2>
+
+    <div class="cards">
+      <div class="card">
+        <h3>1.1 - Island Of Vehicles</h3>
+        <p>Map updates, nytt fordon, julpynt m.m</p>
+      </div>
+
+      <div class="card">
+        <h3>⠀</h3>
+        <p>⠀</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2 class="section-title">Kontakt</h2>
+
+<div class="contact-box">
+  <div class="contact-item">
+    <strong>E‑post</strong><br>
+    <a href="mailto:support@windskore.se">support@windskore.se</a>
+  </div>
+</div>
+
+      <div class="contact-item">
+        <strong>LiveChatt</strong><br>
+        Livechatta med Windskore live på hemsidan.
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>© <span id="year"></span> Windskore. Alla rättigheter förbehållna.</strong><br>
+    <strong>Sverige, Hedemora, Östra Järnvägsgatan 11</strong><br>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <!-- Tawk.to -->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/6800b82fc5e333190b5b7845/1ip1cuv4g';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+
+</body>
+</html>
+
+
+
